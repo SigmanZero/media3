@@ -281,7 +281,7 @@ class CompositionPreviewViewModel(application: Application, val compositionLayou
     }
 
     fun previewComposition() {
-        releasePlayer()
+        compositionPlayer.stop()
         val composition = prepareComposition()
 
         compositionPlayer.setComposition(composition)
@@ -391,7 +391,7 @@ class CompositionPreviewViewModel(application: Application, val compositionLayou
     fun releasePlayer() {
         compositionPlayer.stop()
         compositionPlayer.release()
-        compositionPlayer = createCompositionPlayer()
+//        compositionPlayer = createCompositionPlayer()
     }
 
     /** Cancels any ongoing export operation, and deletes output file contents.  */

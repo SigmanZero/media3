@@ -165,15 +165,15 @@ class CompositionPreviewActivity : AppCompatActivity() {
             // Main pane content
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(text = "${viewModel.compositionLayout} ${stringResource(R.string.preview_composition)}")
-                AndroidView(
-                    factory = { context -> PlayerView(context) },
-                    update = { playerView ->
-                        playerView.player = viewModel.compositionPlayer
-                        playerView.useController = false
-                    },
-                    modifier = Modifier.weight(1f)
-                )
-//                PlayerSurface(viewModel.compositionPlayer, SURFACE_TYPE_SURFACE_VIEW)
+//                AndroidView(
+//                    factory = { context -> PlayerView(context) },
+//                    update = { playerView ->
+//                        playerView.player = viewModel.compositionPlayer
+//                        playerView.useController = false
+//                    },
+//                    modifier = Modifier.weight(1f)
+//                )
+                PlayerSurface(viewModel.compositionPlayer, SURFACE_TYPE_SURFACE_VIEW, modifier = Modifier.weight(1f))
                 HorizontalDivider(thickness = 2.dp, modifier = Modifier.padding(0.dp, 4.dp))
                 VideoSequenceList(viewModel)
                 Row(

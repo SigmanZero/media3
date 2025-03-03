@@ -553,7 +553,7 @@ public final class CompositionPlayer extends SimpleBasePlayer
 
   @Override
   protected ListenableFuture<?> handleSetVideoOutput(Object videoOutput) {
-    if (!(videoOutput instanceof SurfaceHolder || videoOutput instanceof SurfaceView)) {
+    if (!(videoOutput instanceof SurfaceHolder || videoOutput instanceof SurfaceView || videoOutput instanceof Surface)) {
       throw new UnsupportedOperationException(videoOutput.getClass().toString());
     }
     this.videoOutput = videoOutput;
@@ -562,8 +562,10 @@ public final class CompositionPlayer extends SimpleBasePlayer
     }
     if (videoOutput instanceof SurfaceHolder) {
       setVideoSurfaceHolderInternal((SurfaceHolder) videoOutput);
-    } else {
+    } else if (videoOutput instanceof SurfaceView) {
       setVideoSurfaceHolderInternal(((SurfaceView) videoOutput).getHolder());
+    } else {
+      setVideoSurfaceInternal((Surface) videoOutput, checkNotNull(videoOutputSize));
     }
     return Futures.immediateVoidFuture();
   }

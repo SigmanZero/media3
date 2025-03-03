@@ -28,7 +28,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.media3.common.Player
+import androidx.media3.common.util.Size
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.transformer.CompositionPlayer
 
 /**
  * Provides a dedicated drawing [Surface] for media playbacks using a [Player].
@@ -57,9 +59,16 @@ fun PlayerSurface(player: Player, surfaceType: @SurfaceType Int, modifier: Modif
     if (currentPlayer.isCommandAvailable(Player.COMMAND_SET_VIDEO_SURFACE))
       currentPlayer.clearVideoSurface()
   }
+  val updateSurfaceSize: (Surface, Int, Int) -> Unit = { surface, width, height ->
+    if (currentPlayer.isCommandAvailable(Player.COMMAND_SET_VIDEO_SURFACE) &&
+      currentPlayer is CompositionPlayer)
+      (currentPlayer as CompositionPlayer).setVideoSurface(surface, Size(width, height))
+  }
   val onSurfaceInitialized: AndroidExternalSurfaceScope.() -> Unit = {
-    onSurface { surface, _, _ ->
+    onSurface { surface, width, height ->
       onSurfaceCreated(surface)
+      updateSurfaceSize(surface, width, height)
+      surface.onChanged { width, height -> updateSurfaceSize(this, width, height) }
       surface.onDestroyed { onSurfaceDestroyed() }
     }
   }
