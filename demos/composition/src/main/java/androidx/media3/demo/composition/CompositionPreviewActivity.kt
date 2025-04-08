@@ -186,18 +186,17 @@ class CompositionPreviewActivity : AppCompatActivity() {
                 val playerViewModifier = if(scrollState.canScrollForward || scrollState.canScrollBackward) {
                     Modifier.heightIn(min = 250.dp)
                 } else {
-                    Modifier
-                    //Modifier.weight(1f)
+                    Modifier.weight(1f)
                 }
-                AndroidView(
-                    factory = { context -> PlayerView(context) },
-                    update = { playerView ->
-                        playerView.player = viewModel.compositionPlayer
-                        playerView.useController = false
-                    },
-                    modifier = playerViewModifier
-                )
-//                PlayerSurface(viewModel.compositionPlayer, SURFACE_TYPE_SURFACE_VIEW)
+//                AndroidView(
+//                    factory = { context -> PlayerView(context) },
+//                    update = { playerView ->
+//                        playerView.player = viewModel.compositionPlayer
+//                        playerView.useController = false
+//                    },
+//                    modifier = playerViewModifier
+//                )
+                PlayerSurface(player = viewModel.compositionPlayer, surfaceType = SURFACE_TYPE_SURFACE_VIEW, modifier = playerViewModifier)
                 HorizontalDivider(thickness = 2.dp, modifier = Modifier.padding(0.dp, 4.dp))
                 VideoSequenceList(viewModel)
                 Row(
